@@ -579,7 +579,7 @@ async def submit_quiz(
     current_user: UserResponse = Depends(get_current_user)
 ):
     # Calculate score
-    quiz = await db.quizzes.find_one({"id": submission.quiz_id})
+    quiz = await db.quizzes.find_one({"id": submission.quiz_id}, {"_id": 0})
     if not quiz:
         raise HTTPException(status_code=404, detail="Quiz not found")
     
