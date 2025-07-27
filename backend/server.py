@@ -145,9 +145,9 @@ class Quiz(BaseModel):
 
 class QuizSubmission(BaseModel):
     quiz_id: str
-    student_id: str
+    student_id: Optional[str] = None  # Will be set by backend
     answers: List[int]  # indices of selected options
-    score: float
+    score: Optional[float] = None  # Will be calculated by backend
     completed_at: datetime = Field(default_factory=datetime.utcnow)
 
 # Community Models
