@@ -517,7 +517,7 @@ async def update_teacher_profile(
 
 @api_router.get("/progress/{student_id}")
 async def get_student_progress(student_id: str):
-    progress_docs = await db.progress.find({"student_id": student_id}).to_list(50)
+    progress_docs = await db.progress.find({"student_id": student_id}, {"_id": 0}).to_list(50)
     
     # Calculate overall stats
     total_courses = len(progress_docs)
