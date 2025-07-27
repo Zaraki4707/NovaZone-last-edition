@@ -411,7 +411,6 @@ class NovaZoneAPITester:
             
         submission_data = {
             "quiz_id": self.quiz_id,
-            "student_id": self.student_id,
             "answers": [1, 2]  # Sample answers
         }
         
