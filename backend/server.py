@@ -614,7 +614,7 @@ async def get_community_posts(category: Optional[str] = None):
     if category:
         filter_query["category"] = category
     
-    posts = await db.community_posts.find(filter_query).sort("created_at", -1).to_list(50)
+    posts = await db.community_posts.find(filter_query, {"_id": 0}).sort("created_at", -1).to_list(50)
     return posts
 
 @api_router.post("/community/posts")
