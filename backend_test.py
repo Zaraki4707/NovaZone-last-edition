@@ -78,8 +78,10 @@ class NovaZoneAPITester:
 
     def test_auth_register_student(self):
         """Test student registration"""
+        import random
+        random_id = random.randint(1000, 9999)
         student_data = {
-            "email": "emma.watson@student.com",
+            "email": f"emma.watson{random_id}@student.com",
             "password": "SecurePass123!",
             "full_name": "Emma Watson",
             "role": "student"
@@ -98,8 +100,10 @@ class NovaZoneAPITester:
 
     def test_auth_register_teacher(self):
         """Test teacher registration"""
+        import random
+        random_id = random.randint(1000, 9999)
         teacher_data = {
-            "email": "john.smith@teacher.com",
+            "email": f"john.smith{random_id}@teacher.com",
             "password": "TeacherPass456!",
             "full_name": "John Smith",
             "role": "teacher"
@@ -118,8 +122,13 @@ class NovaZoneAPITester:
 
     def test_auth_login(self):
         """Test login with valid credentials"""
+        # Use the same email from registration
+        if not hasattr(self, 'student_email'):
+            self.log_test("Student Login", False, "No student email available from registration")
+            return False
+            
         login_data = {
-            "email": "emma.watson@student.com",
+            "email": self.student_email,
             "password": "SecurePass123!"
         }
         
