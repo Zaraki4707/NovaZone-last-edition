@@ -299,7 +299,7 @@
 
 /* Community post styles */
 .post-content {
-  @apply prose prose-sm max-w-none;
+  @apply text-sm leading-relaxed;
 }
 
 .post-content p {
