@@ -378,13 +378,13 @@ async def get_student_dashboard(student_id: str):
     learning_path = get_learning_path(student_id)
     
     # Get enrolled courses
-    enrolled_courses = await db.courses.find({"enrolled_students": student_id}).to_list(10)
+    enrolled_courses = await db.courses.find({"enrolled_students": student_id}, {"_id": 0}).to_list(10)
     
     # Get progress
-    progress_docs = await db.progress.find({"student_id": student_id}).to_list(10)
+    progress_docs = await db.progress.find({"student_id": student_id}, {"_id": 0}).to_list(10)
     
     # Get recent community posts
-    recent_posts = await db.community_posts.find().sort("created_at", -1).limit(5).to_list(5)
+    recent_posts = await db.community_posts.find({}, {"_id": 0}).sort("created_at", -1).limit(5).to_list(5)
     
     return {
         "learning_path": learning_path,
