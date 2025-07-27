@@ -80,8 +80,9 @@ class NovaZoneAPITester:
         """Test student registration"""
         import random
         random_id = random.randint(1000, 9999)
+        self.student_email = f"emma.watson{random_id}@student.com"
         student_data = {
-            "email": f"emma.watson{random_id}@student.com",
+            "email": self.student_email,
             "password": "SecurePass123!",
             "full_name": "Emma Watson",
             "role": "student"
@@ -102,8 +103,9 @@ class NovaZoneAPITester:
         """Test teacher registration"""
         import random
         random_id = random.randint(1000, 9999)
+        self.teacher_email = f"john.smith{random_id}@teacher.com"
         teacher_data = {
-            "email": f"john.smith{random_id}@teacher.com",
+            "email": self.teacher_email,
             "password": "TeacherPass456!",
             "full_name": "John Smith",
             "role": "teacher"
@@ -140,6 +142,27 @@ class NovaZoneAPITester:
             self.log_test("Student Login", False, f"Status: {status}, Response: {data}")
             
         return success
+
+    def test_auth_login_invalid(self):
+        """Test login with invalid credentials"""
+        if not hasattr(self, 'student_email'):
+            self.log_test("Invalid Login (Expected Failure)", False, "No student email available")
+            return False
+            
+        login_data = {
+            "email": self.student_email,
+            "password": "WrongPassword"
+        }
+        
+        success, data, status = self.make_request("POST", "/auth/login", login_data)
+        
+        # Should fail with 401
+        if not success and status == 401:
+            self.log_test("Invalid Login (Expected Failure)", True, "Correctly rejected invalid credentials")
+        else:
+            self.log_test("Invalid Login (Expected Failure)", False, f"Should have failed with 401, got {status}")
+            
+        return not success and status == 401
 
     def test_auth_login_invalid(self):
         """Test login with invalid credentials"""
