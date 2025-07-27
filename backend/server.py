@@ -559,7 +559,7 @@ async def update_progress(
 
 @api_router.get("/quiz/{course_id}")
 async def get_course_quiz(course_id: str):
-    quiz = await db.quizzes.find_one({"course_id": course_id})
+    quiz = await db.quizzes.find_one({"course_id": course_id}, {"_id": 0})
     if not quiz:
         # Generate quiz using AI placeholder
         questions = generate_quiz_questions(course_id, "General")
@@ -569,6 +569,7 @@ async def get_course_quiz(course_id: str):
             questions=questions
         )
         await db.quizzes.insert_one(quiz.dict())
+        return quiz
     
     return Quiz(**quiz)
 
